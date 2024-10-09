@@ -1,6 +1,6 @@
 # Manova demo using Skulls dataset.
 
-# Add Your Name Here
+# Josephine Reiter
 
 rm(list = ls()) # clear out the variables from memory to make a clean execution of the code.
 
@@ -63,4 +63,22 @@ ggplot(means_long, aes(x = epoch, y = mean_value, fill = measurement)) +
 # Add manova code below
 ##################################
 
-# TODO
+skulls.manova1 <- 
+  manova(cbind(mb, bh, bl, nh) ~ as.factor(epoch),
+         data = skulls)
+
+# prepare different types of manova tests
+summary(skulls.manova1, test == "Hotelling-Lawley")
+summary(skulls.manova1, test == "Roy")
+summary(skulls.manova1, test == "Pilai")
+summary(skulls.manova1, test == "Wilks")
+
+summary.aov(skulls.manova1)
+cat("summary of aov")
+
+skulls.manova2 <- 
+  manova(cbind(mb, bh, bl, nh) ~ as.factor(epoch),
+         data = skulls,
+         subset = as.factor(epoch) %in% c("c4000BC", "c200BC")
+  )
+summary(skulls.manova2)
